@@ -17,12 +17,12 @@ public class ExceptionMiddlewareTests : IClassFixture<ThrowingAppFactory>
     [Fact]
     public async Task UnhandledException_Returns500WithProblemDetails()
     {
-        var response = await _client.GetAsync("/throw");
+        HttpResponseMessage response = await _client.GetAsync("/throw");
 
         Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
         Assert.Equal("application/json", response.Content.Headers.ContentType?.MediaType);
 
-        var body = await response.Content.ReadAsStringAsync();
+        string body = await response.Content.ReadAsStringAsync();
         Assert.Contains("An error occurred while processing your request.", body);
         Assert.Contains("500", body);
     }

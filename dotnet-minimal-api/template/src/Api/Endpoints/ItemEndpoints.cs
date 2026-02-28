@@ -6,7 +6,7 @@ public static class ItemEndpointExtensions
     {
         public void MapItemEndpoints(RouteGroupBuilder root)
         {
-            var group = root
+            RouteGroupBuilder group = root
                 .MapGroup("/items")
                 .WithTags("Items");
                 // Uncomment to require authentication for all endpoints in this group:
@@ -46,7 +46,7 @@ public static class ItemEndpointExtensions
 
     private static async Task<Ok<IEnumerable<ItemDto>>> GetAllItems(IItemService service)
     {
-        var items = await service.GetAllAsync();
+        IEnumerable<ItemDto> items = await service.GetAllAsync();
         return TypedResults.Ok(items);
     }
 
@@ -54,7 +54,7 @@ public static class ItemEndpointExtensions
         int id,
         IItemService service)
     {
-        var item = await service.GetByIdAsync(id);
+        ItemDto? item = await service.GetByIdAsync(id);
         return item is null
             ? TypedResults.NotFound()
             : TypedResults.Ok(item);
@@ -65,7 +65,7 @@ public static class ItemEndpointExtensions
         IItemService service)
     {
         var item = new ItemDto(0, request.Name, request.Description);
-        var created = await service.CreateAsync(item);
+        ItemDto created = await service.CreateAsync(item);
         return TypedResults.Created($"/api/items/{created.Id}", created);
     }
 
@@ -75,7 +75,7 @@ public static class ItemEndpointExtensions
         IItemService service)
     {
         var item = new ItemDto(0, request.Name, request.Description);
-        var updated = await service.UpdateAsync(id, item);
+        ItemDto? updated = await service.UpdateAsync(id, item);
         return updated is null
             ? TypedResults.NotFound()
             : TypedResults.Ok(updated);
@@ -85,7 +85,7 @@ public static class ItemEndpointExtensions
         int id,
         IItemService service)
     {
-        var deleted = await service.DeleteAsync(id);
+        bool deleted = await service.DeleteAsync(id);
         return deleted
             ? TypedResults.NoContent()
             : TypedResults.NotFound();

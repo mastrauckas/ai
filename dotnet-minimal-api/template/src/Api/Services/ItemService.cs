@@ -10,14 +10,12 @@ public class ItemService : IItemService
 
     private static int _nextId = 3;
 
-    public Task<IEnumerable<ItemDto>> GetAllAsync()
-    {
-        return Task.FromResult(_items.AsEnumerable());
-    }
+    public Task<IEnumerable<ItemDto>> GetAllAsync() =>
+        Task.FromResult(_items.AsEnumerable());
 
     public Task<ItemDto?> GetByIdAsync(int id)
     {
-        var item = _items.FirstOrDefault(x => x.Id == id);
+        ItemDto? item = _items.FirstOrDefault(x => x.Id == id);
         return Task.FromResult(item);
     }
 
@@ -32,19 +30,19 @@ public class ItemService : IItemService
         int id,
         ItemDto item)
     {
-        var existingItem = _items.FirstOrDefault(x => x.Id == id);
+        ItemDto? existingItem = _items.FirstOrDefault(x => x.Id == id);
         if (existingItem is null)
             return Task.FromResult<ItemDto?>(null);
 
         var updatedItem = new ItemDto(id, item.Name, item.Description);
-        var index = _items.FindIndex(x => x.Id == id);
+        int index = _items.FindIndex(x => x.Id == id);
         _items[index] = updatedItem;
         return Task.FromResult<ItemDto?>(updatedItem);
     }
 
     public Task<bool> DeleteAsync(int id)
     {
-        var item = _items.FirstOrDefault(x => x.Id == id);
+        ItemDto? item = _items.FirstOrDefault(x => x.Id == id);
         if (item is null)
             return Task.FromResult(false);
 

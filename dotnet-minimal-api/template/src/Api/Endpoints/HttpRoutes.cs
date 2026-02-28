@@ -6,7 +6,7 @@ public static class HttpRoutesExtensions
     {
         public void ConfigureHttpRoutes()
         {
-            var root = app.MapGroup("api");
+            RouteGroupBuilder root = app.MapGroup("api");
 
             app.MapItemEndpoints(root);
         }

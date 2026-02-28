@@ -1,7 +1,7 @@
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 builder.ConfigureBuilder();
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 app.ConfigureApp();
 app.Run();
 
