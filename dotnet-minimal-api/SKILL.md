@@ -3,6 +3,25 @@ name: dotnet-minimal-api
 description: Guide for creating .NET Minimal API projects following best practices. Use this when asked to create, scaffold, or extend a .NET Minimal API application.
 ---
 
+## Template
+
+A complete working reference solution is included in the `template/` directory alongside this file. When scaffolding a new project, use this template as the starting point — copy and rename it, replacing `Item`/`Items` with the appropriate domain entity name.
+
+```
+template/
+  Api.slnx
+  src/
+    Api/
+      Program.cs
+      Endpoints/ItemEndpoints.cs
+      Models/Item.cs
+      Services/IItemService.cs, ItemService.cs
+  tests/
+    Api.Tests/
+      Endpoints/ItemEndpointsTests.cs
+```
+
+
 # .NET Minimal API Best Practices
 
 When creating or extending a .NET Minimal API project, follow these guidelines:
