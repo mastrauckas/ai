@@ -2,6 +2,9 @@
 bin/
 obj/
 
+# Logs
+logs/
+
 # Test results & coverage
 TestResults/
 coverage/
