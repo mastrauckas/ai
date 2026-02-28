@@ -2,11 +2,11 @@ namespace Api.Endpoints;
 
 public static class ItemEndpointExtensions
 {
-    extension(IEndpointRouteBuilder app)
+    extension(WebApplication app)
     {
-        public IEndpointRouteBuilder MapItemEndpoints()
+        public void MapItemEndpoints(RouteGroupBuilder root)
         {
-            var group = app.MapGroup("/items").WithTags("Items");
+            var group = root.MapGroup("/items").WithTags("Items");
 
             group.MapGet("/", GetAllItems)
                 .WithName("GetAllItems")
@@ -21,7 +21,7 @@ public static class ItemEndpointExtensions
 
             group.MapPost("/", CreateItem)
                 .WithName("CreateItem")
-                .WithSummary("Create a new ItemDto")
+                .WithSummary("Create a new item")
                 .Produces<ItemDto>(StatusCodes.Status201Created)
                 .Produces(StatusCodes.Status400BadRequest);
 
@@ -37,8 +37,6 @@ public static class ItemEndpointExtensions
                 .WithSummary("Delete an item")
                 .Produces(StatusCodes.Status204NoContent)
                 .Produces(StatusCodes.Status404NotFound);
-
-            return app;
         }
     }
 

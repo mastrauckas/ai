@@ -22,7 +22,7 @@ public static class AppConfigurationExtensions
             app.MapOpenApi();
 
             // Feature endpoints
-            app.MapItemEndpoints();
+            app.ConfigureHttpRoutes();
         }
     }
 }

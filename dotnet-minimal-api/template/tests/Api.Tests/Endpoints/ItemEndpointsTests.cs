@@ -18,7 +18,7 @@ public class ItemEndpointsTests : IClassFixture<WebApplicationFactory<Program>>
     public async Task GetAllItems_ReturnsOkWithItems()
     {
         // Act
-        var response = await _client.GetAsync("/items");
+        var response = await _client.GetAsync("/api/items");
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -31,7 +31,7 @@ public class ItemEndpointsTests : IClassFixture<WebApplicationFactory<Program>>
     public async Task GetItemById_WithValidId_ReturnsOkWithItem()
     {
         // First get all items to find a valid ID
-        var getAllResponse = await _client.GetAsync("/items");
+        var getAllResponse = await _client.GetAsync("/api/items");
         var items = await getAllResponse.Content.ReadFromJsonAsync<IEnumerable<ItemDto>>();
         var itemId = items?.First().Id;
         
@@ -39,7 +39,7 @@ public class ItemEndpointsTests : IClassFixture<WebApplicationFactory<Program>>
             return;
 
         // Act
-        var response = await _client.GetAsync($"/items/{itemId}");
+        var response = await _client.GetAsync($"/api/items/{itemId}");
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -52,7 +52,7 @@ public class ItemEndpointsTests : IClassFixture<WebApplicationFactory<Program>>
     public async Task GetItemById_WithInvalidId_ReturnsNotFound()
     {
         // Act
-        var response = await _client.GetAsync("/items/999");
+        var response = await _client.GetAsync("/api/items/999");
 
         // Assert
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
@@ -65,7 +65,7 @@ public class ItemEndpointsTests : IClassFixture<WebApplicationFactory<Program>>
         var request = new { name = "New ItemDto", description = "A new ItemDto" };
 
         // Act
-        var response = await _client.PostAsJsonAsync("/items", request);
+        var response = await _client.PostAsJsonAsync("/api/items", request);
 
         // Assert
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
@@ -82,7 +82,7 @@ public class ItemEndpointsTests : IClassFixture<WebApplicationFactory<Program>>
         var request = new { name = "", description = "A new ItemDto" };
 
         // Act
-        var response = await _client.PostAsJsonAsync("/items", request);
+        var response = await _client.PostAsJsonAsync("/api/items", request);
 
         // Assert
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
@@ -92,7 +92,7 @@ public class ItemEndpointsTests : IClassFixture<WebApplicationFactory<Program>>
     public async Task UpdateItem_WithValidRequest_ReturnsOkWithUpdatedItem()
     {
         // First get all items to find a valid ID
-        var getAllResponse = await _client.GetAsync("/items");
+        var getAllResponse = await _client.GetAsync("/api/items");
         var items = await getAllResponse.Content.ReadFromJsonAsync<IEnumerable<ItemDto>>();
         var itemId = items?.First().Id;
         
@@ -103,7 +103,7 @@ public class ItemEndpointsTests : IClassFixture<WebApplicationFactory<Program>>
         var request = new { name = "Updated ItemDto", description = "Updated description" };
 
         // Act
-        var response = await _client.PutAsJsonAsync($"/items/{itemId}", request);
+        var response = await _client.PutAsJsonAsync($"/api/items/{itemId}", request);
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -120,7 +120,7 @@ public class ItemEndpointsTests : IClassFixture<WebApplicationFactory<Program>>
         var request = new { name = "Updated ItemDto", description = "Updated description" };
 
         // Act
-        var response = await _client.PutAsJsonAsync("/items/999", request);
+        var response = await _client.PutAsJsonAsync("/api/items/999", request);
 
         // Assert
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
@@ -130,7 +130,7 @@ public class ItemEndpointsTests : IClassFixture<WebApplicationFactory<Program>>
     public async Task UpdateItem_WithoutName_ReturnsBadRequest()
     {
         // First get all items to find a valid ID
-        var getAllResponse = await _client.GetAsync("/items");
+        var getAllResponse = await _client.GetAsync("/api/items");
         var items = await getAllResponse.Content.ReadFromJsonAsync<IEnumerable<ItemDto>>();
         var itemId = items?.First().Id;
         
@@ -141,7 +141,7 @@ public class ItemEndpointsTests : IClassFixture<WebApplicationFactory<Program>>
         var request = new { name = "", description = "Updated description" };
 
         // Act
-        var response = await _client.PutAsJsonAsync($"/items/{itemId}", request);
+        var response = await _client.PutAsJsonAsync($"/api/items/{itemId}", request);
 
         // Assert
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
@@ -151,7 +151,7 @@ public class ItemEndpointsTests : IClassFixture<WebApplicationFactory<Program>>
     public async Task DeleteItem_WithValidId_ReturnsNoContent()
     {
         // First, get all items to know what ID to delete
-        var getResponse = await _client.GetAsync("/items");
+        var getResponse = await _client.GetAsync("/api/items");
         var items = await getResponse.Content.ReadFromJsonAsync<IEnumerable<ItemDto>>();
         var itemToDelete = items?.First();
         
@@ -159,13 +159,13 @@ public class ItemEndpointsTests : IClassFixture<WebApplicationFactory<Program>>
             return;
 
         // Act
-        var response = await _client.DeleteAsync($"/items/{itemToDelete.Id}");
+        var response = await _client.DeleteAsync($"/api/items/{itemToDelete.Id}");
 
         // Assert
         Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
 
         // Verify it's deleted
-        var getAfterDelete = await _client.GetAsync($"/items/{itemToDelete.Id}");
+        var getAfterDelete = await _client.GetAsync($"/api/items/{itemToDelete.Id}");
         Assert.Equal(HttpStatusCode.NotFound, getAfterDelete.StatusCode);
     }
 
@@ -173,7 +173,7 @@ public class ItemEndpointsTests : IClassFixture<WebApplicationFactory<Program>>
     public async Task DeleteItem_WithInvalidId_ReturnsNotFound()
     {
         // Act
-        var response = await _client.DeleteAsync("/items/999");
+        var response = await _client.DeleteAsync("/api/items/999");
 
         // Assert
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
