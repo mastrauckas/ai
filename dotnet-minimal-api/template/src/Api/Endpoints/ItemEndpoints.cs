@@ -11,7 +11,8 @@ public static class ItemEndpointExtensions
             group.MapGet("/", GetAllItems)
                 .WithName("GetAllItems")
                 .WithSummary("Get all items")
-                .Produces<IEnumerable<ItemDto>>(StatusCodes.Status200OK);
+                .Produces<IEnumerable<ItemDto>>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound);
 
             group.MapGet("/{id:int}", GetItemById)
                 .WithName("GetItemById")
@@ -87,12 +88,4 @@ public static class ItemEndpointExtensions
             : TypedResults.NotFound();
     }
 }
-
-public record CreateItemRequest(
-    [Required] string Name,
-    [Required] string Description);
-
-public record UpdateItemRequest(
-    [Required] string Name,
-    [Required] string Description);
 
