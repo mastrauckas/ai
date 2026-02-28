@@ -14,23 +14,33 @@ public static class ItemEndpointExtensions
 
             group.MapGet("/", GetAllItems)
                 .WithName("ListItems")
-                .WithSummary("List all items");
+                .WithDisplayName("List Items")
+                .WithSummary("List all items")
+                .WithDescription("Returns all items in the system.");
 
             group.MapGet("/{id:int}", GetItemById)
                 .WithName("GetItem")
-                .WithSummary("Get an item by ID");
+                .WithDisplayName("Get Item")
+                .WithSummary("Get an item by ID")
+                .WithDescription("Returns a single item matching the given ID, or 404 if not found.");
 
             group.MapPost("/", CreateItem)
                 .WithName("CreateItem")
-                .WithSummary("Create a new item");
+                .WithDisplayName("Create Item")
+                .WithSummary("Create a new item")
+                .WithDescription("Creates a new item and returns the created resource.");
 
             group.MapPut("/{id:int}", UpdateItem)
                 .WithName("UpdateItem")
-                .WithSummary("Update an item");
+                .WithDisplayName("Update Item")
+                .WithSummary("Update an item")
+                .WithDescription("Updates an existing item by ID, or returns 404 if not found.");
 
             group.MapDelete("/{id:int}", DeleteItem)
                 .WithName("DeleteItem")
-                .WithSummary("Delete an item");
+                .WithDisplayName("Delete Item")
+                .WithSummary("Delete an item")
+                .WithDescription("Deletes an item by ID, or returns 404 if not found.");
         }
     }
 
