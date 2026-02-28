@@ -7,8 +7,8 @@ description: Guide for creating .NET Minimal API projects following best practic
 
 When asked to create a new project, **ask the user the following questions before doing any work**:
 
-1. **Solution name** — what should the solution be called? (default: `MyMinimalWebApp`)
-2. **Project name** — what should the API project be called? (default: `MyMinimalWebApp.Api`)
+1. **Solution name** — what should the solution be called? (required)
+2. **Project name** — what should the API project be called? (required; conventionally `<SolutionName>.Api`)
 3. **Output directory** — where should the project be created? (defaults to the current working directory)
 
 Once you have the answers:
