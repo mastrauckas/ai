@@ -1,7 +1,10 @@
 using Api.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.ConfigureBuilder();
+builder.RegisterOpenApi();
+builder.RegisterAuthentication();
+builder.RegisterCors();
+builder.RegisterServices();
 
 var app = builder.Build();
 app.ConfigureApp();

@@ -32,7 +32,10 @@ template/
 
 ```csharp
 var builder = WebApplication.CreateBuilder(args);
-builder.ConfigureBuilder();
+builder.RegisterOpenApi();
+builder.RegisterAuthentication();
+builder.RegisterCors();
+builder.RegisterServices();
 
 var app = builder.Build();
 app.ConfigureApp();
@@ -43,20 +46,27 @@ public partial class Program { }
 
 ### BuilderConfiguration.cs
 
-Extension block on `WebApplicationBuilder` for all service registrations:
+Extension block on `WebApplicationBuilder` with separate `RegisterX()` methods per concern:
 
 ```csharp
 public static class BuilderConfigurationExtensions
 {
     extension(WebApplicationBuilder builder)
     {
-        public void ConfigureBuilder()
+        public void RegisterOpenApi()
         {
             builder.Services.AddOpenApi();
+            builder.Services.AddEndpointsApiExplorer();
+        }
+
+        public void RegisterAuthentication()
+        {
             builder.Services.AddAuthentication();
             builder.Services.AddAuthorization();
-            builder.Services.AddEndpointsApiExplorer();
+        }
 
+        public void RegisterCors()
+        {
             var allowedOrigins = builder.Configuration
                 .GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
 
@@ -70,7 +80,10 @@ public static class BuilderConfigurationExtensions
                         .AllowCredentials();
                 });
             });
+        }
 
+        public void RegisterServices()
+        {
             // Feature services
             builder.Services.AddItemServices();
         }

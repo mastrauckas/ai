@@ -6,13 +6,20 @@ public static class BuilderConfigurationExtensions
 {
     extension(WebApplicationBuilder builder)
     {
-        public void ConfigureBuilder()
+        public void RegisterOpenApi()
         {
             builder.Services.AddOpenApi();
+            builder.Services.AddEndpointsApiExplorer();
+        }
+
+        public void RegisterAuthentication()
+        {
             builder.Services.AddAuthentication();
             builder.Services.AddAuthorization();
-            builder.Services.AddEndpointsApiExplorer();
+        }
 
+        public void RegisterCors()
+        {
             var allowedOrigins = builder.Configuration
                 .GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
 
@@ -26,7 +33,10 @@ public static class BuilderConfigurationExtensions
                         .AllowCredentials();
                 });
             });
+        }
 
+        public void RegisterServices()
+        {
             // Feature services
             builder.Services.AddItemServices();
         }
