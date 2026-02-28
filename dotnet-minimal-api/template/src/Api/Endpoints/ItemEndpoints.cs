@@ -6,7 +6,9 @@ public static class ItemEndpointExtensions
     {
         public void MapItemEndpoints(RouteGroupBuilder root)
         {
-            var group = root.MapGroup("/items").WithTags("Items");
+            var group = root
+                .MapGroup("/items")
+                .WithTags("Items");
 
             group.MapGet("/", GetAllItems)
                 .WithName("ListItems")
