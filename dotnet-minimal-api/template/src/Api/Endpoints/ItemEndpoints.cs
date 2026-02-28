@@ -9,6 +9,8 @@ public static class ItemEndpointExtensions
             var group = root
                 .MapGroup("/items")
                 .WithTags("Items");
+                // Uncomment to require authentication for all endpoints in this group:
+                // .RequireAuthorization();
 
             group.MapGet("/", GetAllItems)
                 .WithName("ListItems")

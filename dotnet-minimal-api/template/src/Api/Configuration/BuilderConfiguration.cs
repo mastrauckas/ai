@@ -21,6 +21,13 @@ public static class BuilderConfigurationExtensions
 
         public void RegisterAuthentication()
         {
+            // Uncomment and configure a scheme (e.g. JWT Bearer) to enable authentication:
+            // builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //     .AddJwtBearer(options =>
+            //     {
+            //         options.Authority = builder.Configuration["Auth:Authority"];
+            //         options.Audience = builder.Configuration["Auth:Audience"];
+            //     });
             builder.Services.AddAuthentication();
             builder.Services.AddAuthorization();
         }
