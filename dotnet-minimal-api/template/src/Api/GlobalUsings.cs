@@ -11,3 +11,6 @@ global using Microsoft.Extensions.Diagnostics.HealthChecks;
 global using Microsoft.AspNetCore.Http.HttpResults;
 global using Microsoft.AspNetCore.RateLimiting;
 global using Microsoft.Extensions.DependencyInjection;
+global using Serilog;
+global using ILogger = Microsoft.Extensions.Logging.ILogger;
+global using SerilogLogger = Serilog.ILogger;

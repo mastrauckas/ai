@@ -7,6 +7,7 @@ public static class AppConfigurationExtensions
         public void ConfigureApp()
         {
             app.UseMiddleware<ExceptionMiddleware>();
+            app.UseSerilogRequestLogging();
 
             // ORDER MATTERS: UseCors must come before UseAuthentication/UseAuthorization
             // so CORS preflight requests are handled before auth middleware runs.
