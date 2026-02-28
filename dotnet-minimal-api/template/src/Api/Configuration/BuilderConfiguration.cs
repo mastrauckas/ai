@@ -57,6 +57,8 @@ public static class BuilderConfigurationExtensions
             builder.Services.AddValidation();
         }
 
+        // ---- Customize these for your application ----
+
         public void RegisterDatabase()
         {
             // Register your database context here. Examples:
