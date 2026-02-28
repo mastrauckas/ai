@@ -43,65 +43,88 @@ public partial class Program { }
 
 ### BuilderConfiguration.cs
 
-Extension method on `WebApplicationBuilder` for all service registrations:
+Extension block on `WebApplicationBuilder` for all service registrations:
 
 ```csharp
-public static class BuilderConfiguration
+public static class BuilderConfigurationExtensions
 {
-    public static void ConfigureBuilder(this WebApplicationBuilder builder)
+    extension(WebApplicationBuilder builder)
     {
-        builder.Services.AddOpenApi();
-        builder.Services.AddAuthentication();
-        builder.Services.AddAuthorization();
-        builder.Services.AddEndpointsApiExplorer();
-
-        var allowedOrigins = builder.Configuration
-            .GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
-
-        builder.Services.AddCors(options =>
+        public void ConfigureBuilder()
         {
-            options.AddPolicy("AllowLocalAngularDevelopment", policy =>
-            {
-                policy.WithOrigins(allowedOrigins)
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .AllowCredentials();
-            });
-        });
+            builder.Services.AddOpenApi();
+            builder.Services.AddAuthentication();
+            builder.Services.AddAuthorization();
+            builder.Services.AddEndpointsApiExplorer();
 
-        // Feature services
-        builder.Services.AddItemServices();
+            var allowedOrigins = builder.Configuration
+                .GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowLocalAngularDevelopment", policy =>
+                {
+                    policy.WithOrigins(allowedOrigins)
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
+            });
+
+            // Feature services
+            builder.Services.AddItemServices();
+        }
     }
 }
 ```
 
 ### AppConfiguration.cs
 
-Extension method on `WebApplication` for middleware pipeline and endpoint mapping:
+Extension block on `WebApplication` for middleware pipeline and endpoint mapping:
 
 ```csharp
-public static class AppConfiguration
+public static class AppConfigurationExtensions
 {
-    public static void ConfigureApp(this WebApplication app)
+    extension(WebApplication app)
     {
-        app.UseExceptionHandler(...);   // JSON problem details
-        app.UseCors("AllowLocalAngularDevelopment");
-        app.UseAuthentication();
-        app.UseAuthorization();
-        app.MapOpenApi();
+        public void ConfigureApp()
+        {
+            app.UseExceptionHandler(...);   // JSON problem details
+            app.UseCors("AllowLocalAngularDevelopment");
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.MapOpenApi();
 
-        // Feature endpoints
-        app.MapItemEndpoints();
+            // Feature endpoints
+            app.MapItemEndpoints();
+        }
     }
 }
 ```
 
 ### Endpoints
 
-- Static extension methods on `IEndpointRouteBuilder`
+- Use C# 14 extension blocks on `IEndpointRouteBuilder`
 - Use `app.MapGroup("/items").WithTags("Items")`
 - Always use `TypedResults` (not `Results`) for strongly-typed responses
 - Each endpoint decorated with `.WithName()`, `.WithSummary()`, `.Produces<T>()`
+
+```csharp
+public static class ItemEndpointExtensions
+{
+    extension(IEndpointRouteBuilder app)
+    {
+        public IEndpointRouteBuilder MapItemEndpoints()
+        {
+            var group = app.MapGroup("/items").WithTags("Items");
+            group.MapGet("/", GetAllItems).WithName("GetAllItems")...;
+            // ...
+            return app;
+        }
+    }
+
+    private static async Task<Ok<IEnumerable<Item>>> GetAllItems(IItemService service) => ...;
+}
 
 ### appsettings.json
 

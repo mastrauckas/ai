@@ -2,30 +2,33 @@ using Api.Services;
 
 namespace Api.Configuration;
 
-public static class BuilderConfiguration
+public static class BuilderConfigurationExtensions
 {
-    public static void ConfigureBuilder(this WebApplicationBuilder builder)
+    extension(WebApplicationBuilder builder)
     {
-        builder.Services.AddOpenApi();
-        builder.Services.AddAuthentication();
-        builder.Services.AddAuthorization();
-        builder.Services.AddEndpointsApiExplorer();
-
-        var allowedOrigins = builder.Configuration
-            .GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
-
-        builder.Services.AddCors(options =>
+        public void ConfigureBuilder()
         {
-            options.AddPolicy("AllowLocalAngularDevelopment", policy =>
-            {
-                policy.WithOrigins(allowedOrigins)
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .AllowCredentials();
-            });
-        });
+            builder.Services.AddOpenApi();
+            builder.Services.AddAuthentication();
+            builder.Services.AddAuthorization();
+            builder.Services.AddEndpointsApiExplorer();
 
-        // Feature services
-        builder.Services.AddItemServices();
+            var allowedOrigins = builder.Configuration
+                .GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowLocalAngularDevelopment", policy =>
+                {
+                    policy.WithOrigins(allowedOrigins)
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
+            });
+
+            // Feature services
+            builder.Services.AddItemServices();
+        }
     }
 }

@@ -4,43 +4,46 @@ using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Api.Endpoints;
 
-public static class ItemEndpoints
+public static class ItemEndpointExtensions
 {
-    public static IEndpointRouteBuilder MapItemEndpoints(this IEndpointRouteBuilder app)
+    extension(IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/items").WithTags("Items");
+        public IEndpointRouteBuilder MapItemEndpoints()
+        {
+            var group = app.MapGroup("/items").WithTags("Items");
 
-        group.MapGet("/", GetAllItems)
-            .WithName("GetAllItems")
-            .WithSummary("Get all items")
-            .Produces<IEnumerable<Item>>(StatusCodes.Status200OK);
+            group.MapGet("/", GetAllItems)
+                .WithName("GetAllItems")
+                .WithSummary("Get all items")
+                .Produces<IEnumerable<Item>>(StatusCodes.Status200OK);
 
-        group.MapGet("/{id:int}", GetItemById)
-            .WithName("GetItemById")
-            .WithSummary("Get an item by ID")
-            .Produces<Item>(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status404NotFound);
+            group.MapGet("/{id:int}", GetItemById)
+                .WithName("GetItemById")
+                .WithSummary("Get an item by ID")
+                .Produces<Item>(StatusCodes.Status200OK)
+                .Produces(StatusCodes.Status404NotFound);
 
-        group.MapPost("/", CreateItem)
-            .WithName("CreateItem")
-            .WithSummary("Create a new item")
-            .Produces<Item>(StatusCodes.Status201Created)
-            .Produces(StatusCodes.Status400BadRequest);
+            group.MapPost("/", CreateItem)
+                .WithName("CreateItem")
+                .WithSummary("Create a new item")
+                .Produces<Item>(StatusCodes.Status201Created)
+                .Produces(StatusCodes.Status400BadRequest);
 
-        group.MapPut("/{id:int}", UpdateItem)
-            .WithName("UpdateItem")
-            .WithSummary("Update an item")
-            .Produces<Item>(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status404NotFound)
-            .Produces(StatusCodes.Status400BadRequest);
+            group.MapPut("/{id:int}", UpdateItem)
+                .WithName("UpdateItem")
+                .WithSummary("Update an item")
+                .Produces<Item>(StatusCodes.Status200OK)
+                .Produces(StatusCodes.Status404NotFound)
+                .Produces(StatusCodes.Status400BadRequest);
 
-        group.MapDelete("/{id:int}", DeleteItem)
-            .WithName("DeleteItem")
-            .WithSummary("Delete an item")
-            .Produces(StatusCodes.Status204NoContent)
-            .Produces(StatusCodes.Status404NotFound);
+            group.MapDelete("/{id:int}", DeleteItem)
+                .WithName("DeleteItem")
+                .WithSummary("Delete an item")
+                .Produces(StatusCodes.Status204NoContent)
+                .Produces(StatusCodes.Status404NotFound);
 
-        return app;
+            return app;
+        }
     }
 
     private static async Task<Ok<IEnumerable<Item>>> GetAllItems(IItemService service)
@@ -98,3 +101,4 @@ public static class ItemEndpoints
 
 public record CreateItemRequest(string Name, string Description);
 public record UpdateItemRequest(string Name, string Description);
+

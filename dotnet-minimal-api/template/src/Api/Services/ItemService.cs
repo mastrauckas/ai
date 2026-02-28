@@ -56,9 +56,12 @@ public class ItemService : IItemService
 
 public static class ItemServiceExtensions
 {
-    public static IServiceCollection AddItemServices(this IServiceCollection services)
+    extension(IServiceCollection services)
     {
-        services.AddSingleton<IItemService, ItemService>();
-        return services;
+        public IServiceCollection AddItemServices()
+        {
+            services.AddSingleton<IItemService, ItemService>();
+            return services;
+        }
     }
 }
