@@ -9,6 +9,7 @@ public static class BuilderConfigurationExtensions
             builder.RegisterOpenApi();
             builder.RegisterAuthentication();
             builder.RegisterCors();
+            builder.RegisterDatabase();
             builder.RegisterValidation();
             builder.RegisterServices();
         }
@@ -54,6 +55,22 @@ public static class BuilderConfigurationExtensions
         public void RegisterValidation()
         {
             builder.Services.AddValidation();
+        }
+
+        public void RegisterDatabase()
+        {
+            // Register your database context here. Examples:
+            //
+            // Entity Framework Core (SQL Server):
+            // builder.Services.AddDbContext<AppDbContext>(options =>
+            //     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            //
+            // Entity Framework Core (PostgreSQL):
+            // builder.Services.AddDbContext<AppDbContext>(options =>
+            //     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+            //
+            // Dapper — just register your connection factory:
+            // builder.Services.AddSingleton<IDbConnectionFactory, SqlConnectionFactory>();
         }
 
         public void RegisterServices()
