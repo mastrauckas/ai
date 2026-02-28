@@ -20,6 +20,7 @@ When asked to create a new project, **ask the user the following questions befor
 3. **Output directory** — where should the project be created? (defaults to the current working directory)
 
 Once you have the answers:
+- Copy the contents of the `template/` directory directly into the output directory (do **not** create an extra subdirectory — the output directory itself is the project root)
 - Rename `MyMinimalWebApp.slnx` → `<SolutionName>.slnx`
 - Rename `src/MyMinimalWebApp.Api/` → `src/<ProjectName>/`
 - Rename `src/MyMinimalWebApp.Api/MyMinimalWebApp.Api.csproj` → `src/<ProjectName>/<ProjectName>.csproj`
