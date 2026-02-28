@@ -4,6 +4,14 @@ public static class BuilderConfigurationExtensions
 {
     extension(WebApplicationBuilder builder)
     {
+        public void ConfigureBuilder()
+        {
+            builder.RegisterOpenApi();
+            builder.RegisterAuthentication();
+            builder.RegisterCors();
+            builder.RegisterServices();
+        }
+
         public void RegisterOpenApi()
         {
             builder.Services.AddOpenApi();

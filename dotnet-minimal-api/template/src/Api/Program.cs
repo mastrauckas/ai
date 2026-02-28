@@ -1,8 +1,5 @@
 var builder = WebApplication.CreateBuilder(args);
-builder.RegisterOpenApi();
-builder.RegisterAuthentication();
-builder.RegisterCors();
-builder.RegisterServices();
+builder.ConfigureBuilder();
 
 var app = builder.Build();
 app.ConfigureApp();
