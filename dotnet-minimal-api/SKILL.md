@@ -1,6 +1,14 @@
 ---
 name: dotnet-minimal-api
 description: Guide for creating .NET Minimal API projects following best practices. Use this when asked to create, scaffold, or extend a .NET Minimal API application.
+user-invocable: true
+argument-hint: "create a new .NET Minimal API project"
+metadata:
+  version: 1.0.0
+  author: Michael Astrauckas
+  tags: dotnet, minimal-api, csharp
+  created: "2026-02-28"
+  dotnet-version: "10.0"
 ---
 
 ## Scaffolding a New Project
