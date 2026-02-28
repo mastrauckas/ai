@@ -1,5 +1,10 @@
-bin/
-obj/
-TestResults/
-*.user
+# Editor
 .vs/
+.vscode/
+*.user
+*.suo
+*.userprefs
+
+# OS
+.DS_Store
+Thumbs.db
