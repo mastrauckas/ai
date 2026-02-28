@@ -6,6 +6,8 @@ global using Api.Logging;
 global using Api.Middleware;
 global using Api.Dtos;
 global using Api.Services;
+global using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+global using Microsoft.Extensions.Diagnostics.HealthChecks;
 global using Microsoft.AspNetCore.Http.HttpResults;
 global using Microsoft.AspNetCore.RateLimiting;
 global using Microsoft.Extensions.DependencyInjection;

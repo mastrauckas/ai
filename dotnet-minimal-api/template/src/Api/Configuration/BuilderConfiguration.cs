@@ -72,8 +72,11 @@ public static class BuilderConfigurationExtensions
 
         public void RegisterHealthChecks()
         {
-            builder.Services.AddHealthChecks();
-            // Add additional health checks as needed. Examples:
+            builder.Services
+                .AddHealthChecks()
+                // Liveness: only checks if the process is running (used by Kubernetes liveness probe)
+                .AddCheck("live", () => HealthCheckResult.Healthy(), tags: ["live"]);
+            // Readiness: add dependency checks tagged "ready" for Kubernetes readiness probe. Examples:
             // .AddSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")!)  // SQL Server connectivity (requires AspNetCore.HealthChecks.SqlServer)
             // .AddNpgSql(builder.Configuration.GetConnectionString("DefaultConnection")!)     // PostgreSQL connectivity (requires AspNetCore.HealthChecks.NpgSql)
             // .AddRedis(builder.Configuration.GetConnectionString("Redis")!)                  // Redis cache connectivity (requires AspNetCore.HealthChecks.Redis)

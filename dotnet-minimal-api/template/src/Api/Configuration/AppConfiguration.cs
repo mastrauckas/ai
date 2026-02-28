@@ -24,7 +24,17 @@ public static class AppConfigurationExtensions
             app.UseRateLimiter();
 
             app.MapOpenApi();
+
+            // Health checks — map combined, liveness, and readiness probes
             app.MapHealthChecks("/health");
+            app.MapHealthChecks("/health/live", new HealthCheckOptions
+            {
+                Predicate = check => check.Tags.Contains("live")
+            });
+            app.MapHealthChecks("/health/ready", new HealthCheckOptions
+            {
+                Predicate = check => check.Tags.Contains("ready")
+            });
 
             // Feature endpoints
             app.ConfigureHttpRoutes();
