@@ -6,7 +6,7 @@ description:
 user-invocable: true
 argument-hint: "create a new .NET Minimal API project"
 metadata:
-  version: 1.0.7
+  version: 1.0.8
   author: Michael Astrauckas
   tags: dotnet, minimal-api, csharp
   created: "2026-02-28"
@@ -60,6 +60,7 @@ Once you have the answers:
 - Replace `Item`/`Items` with the appropriate domain entity name if provided
 - Replace the HTTP port `5262` with `<HttpPort>` and the HTTPS port `7105` with `<HttpPort + 1>` in:
   - `src/<ProjectName>/Properties/launchSettings.json` (both `http` and `https` profiles)
+  - `src/<ProjectName>/appsettings.json` (both `Kestrel.Endpoints.Http.Url` and `Kestrel.Endpoints.Https.Url`)
   - `http-files/items.http`
   - `http-files/health.http`
 
