@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Builder;
 
-namespace Api.IntegrationTests.Middleware;
+namespace MyMinimalWebApp.Api.IntegrationTests.Middleware;
 
 public class ExceptionMiddlewareTests : IClassFixture<ThrowingAppFactory>
 {

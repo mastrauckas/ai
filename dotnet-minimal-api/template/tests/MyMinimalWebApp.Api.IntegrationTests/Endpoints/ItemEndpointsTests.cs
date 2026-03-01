@@ -3,7 +3,7 @@ using System.Net.Http.Json;
 using MyMinimalWebApp.Api.Dtos;
 using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace Api.IntegrationTests.Endpoints;
+namespace MyMinimalWebApp.Api.IntegrationTests.Endpoints;
 
 public class ItemEndpointsTests : IClassFixture<WebApplicationFactory<Program>>
 {

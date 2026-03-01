@@ -2,7 +2,7 @@ using MyMinimalWebApp.Api.Dtos;
 using MyMinimalWebApp.Api.Services;
 using Bogus;
 
-namespace Api.UnitTests.Services;
+namespace MyMinimalWebApp.Api.UnitTests.Services;
 
 public class ItemServiceTests
 {

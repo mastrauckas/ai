@@ -1,7 +1,7 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace Api.IntegrationTests.HealthChecks;
+namespace MyMinimalWebApp.Api.IntegrationTests.HealthChecks;
 
 public class HealthCheckTests(WebApplicationFactory<Program> factory)
     : IClassFixture<WebApplicationFactory<Program>>
