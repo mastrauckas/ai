@@ -8,7 +8,7 @@ A skill is a `SKILL.md` file that tells Copilot how to perform a specialized tas
 
 | Skill | Description |
 |-------|-------------|
-| [dotnet-minimal-api](./dotnet-minimal-api/SKILL.md) | Scaffold a production-ready .NET Minimal API project following established patterns for structure, logging, health checks, rate limiting, and testing. |
+| [dotnet-minimal-api](./dotnet-minimal-api/SKILL.md) | Scaffold a production-ready .NET 10 Minimal API project. |
 
 ## Setup
 
