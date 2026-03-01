@@ -2,13 +2,13 @@ namespace MyMinimalWebApp.Api.Services;
 
 public class ItemService : IItemService
 {
-    private static readonly List<ItemDto> _items = new()
-    {
+    private readonly List<ItemDto> _items =
+    [
         new ItemDto(1, "Item 1", "First item"),
         new ItemDto(2, "Item 2", "Second item"),
-    };
+    ];
 
-    private static int _nextId = 3;
+    private int _nextId = 3;
 
     public Task<IEnumerable<ItemDto>> GetAllAsync() =>
         Task.FromResult(_items.AsEnumerable());
@@ -30,12 +30,11 @@ public class ItemService : IItemService
         int id,
         ItemDto item)
     {
-        ItemDto? existingItem = _items.FirstOrDefault(x => x.Id == id);
-        if (existingItem is null)
+        int index = _items.FindIndex(x => x.Id == id);
+        if (index < 0)
             return Task.FromResult<ItemDto?>(null);
 
         var updatedItem = new ItemDto(id, item.Name, item.Description);
-        int index = _items.FindIndex(x => x.Id == id);
         _items[index] = updatedItem;
         return Task.FromResult<ItemDto?>(updatedItem);
     }
