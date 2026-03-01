@@ -1,6 +1,8 @@
 ---
 name: dotnet-minimal-api
-description: Guide for creating .NET Minimal API projects following best practices. Use this when asked to create, scaffold, or extend a .NET Minimal API application.
+description:
+  Guide for creating .NET Minimal API projects following best practices. Use this when asked to
+  create, scaffold, or extend a .NET Minimal API application.
 user-invocable: true
 argument-hint: "create a new .NET Minimal API project"
 metadata:
@@ -16,21 +18,29 @@ metadata:
 When asked to create a new project, **ask the user the following questions before doing any work**:
 
 1. **Solution name** — what should the solution be called? (required)
-2. **Project name** — what should the API project be called? (required; conventionally `<SolutionName>.Api`)
-3. **Output directory** — where should the project be created? (defaults to the current working directory)
+2. **Project name** — what should the API project be called? (required; conventionally
+   `<SolutionName>.Api`)
+3. **Output directory** — where should the project be created? (defaults to the current working
+   directory)
 
 Once you have the answers:
-- Copy the contents of the `template/` directory directly into the output directory (do **not** create an extra subdirectory — the output directory itself is the project root)
+
+- Copy the contents of the `template/` directory directly into the output directory (do **not**
+  create an extra subdirectory — the output directory itself is the project root)
 - Rename `MyMinimalWebApp.slnx` → `<SolutionName>.slnx`
 - Rename `src/MyMinimalWebApp.Api/` → `src/<ProjectName>/`
-- Rename `src/MyMinimalWebApp.Api/MyMinimalWebApp.Api.csproj` → `src/<ProjectName>/<ProjectName>.csproj`
-- Update all namespace references from `MyMinimalWebApp.Api` → `<ProjectName>` throughout all `.cs` files
+- Rename `src/MyMinimalWebApp.Api/MyMinimalWebApp.Api.csproj` →
+  `src/<ProjectName>/<ProjectName>.csproj`
+- Update all namespace references from `MyMinimalWebApp.Api` → `<ProjectName>` throughout all `.cs`
+  files
 - Update all project references in the `.slnx` file
 - Replace `Item`/`Items` with the appropriate domain entity name if provided
 
 ## Template
 
-A complete working reference solution is included in the `template/` directory alongside this file. When scaffolding a new project, use this template as the starting point — copy and rename it, replacing `Item`/`Items` with the appropriate domain entity name.
+A complete working reference solution is included in the `template/` directory alongside this file.
+When scaffolding a new project, use this template as the starting point — copy and rename it,
+replacing `Item`/`Items` with the appropriate domain entity name.
 
 ```
 template/
@@ -87,8 +97,10 @@ template/
 - Use explicit type when type is not apparent (method return values, async results)
 - 2+ parameters → each on its own line
 - Method chains with 2+ dots → each `.` on its own line
-- `TreatWarningsAsErrors = true` + `EnforceCodeStyleInBuild = true` — all style rules enforced at build time
-- ILogger aliases in GlobalUsings: `ILogger` = `Microsoft.Extensions.Logging.ILogger`, `SerilogLogger` = `Serilog.ILogger`
+- `TreatWarningsAsErrors = true` + `EnforceCodeStyleInBuild = true` — all style rules enforced at
+  build time
+- ILogger aliases in GlobalUsings: `ILogger` = `Microsoft.Extensions.Logging.ILogger`,
+  `SerilogLogger` = `Serilog.ILogger`
 
 ## Key Patterns
 
@@ -249,7 +261,7 @@ Configured entirely via `appsettings.json` — no code changes needed to add sin
 ```json
 {
   "Serilog": {
-    "Using": [ "Serilog.Sinks.Console", "Serilog.Sinks.File" ],
+    "Using": ["Serilog.Sinks.Console", "Serilog.Sinks.File"],
     "MinimumLevel": {
       "Default": "Information",
       "Override": {
@@ -259,22 +271,28 @@ Configured entirely via `appsettings.json` — no code changes needed to add sin
     },
     "WriteTo": [
       { "Name": "Console" },
-      { "Name": "File", "Args": { "path": "logs/api-.log", "rollingInterval": "Day", "retainedFileCountLimit": 10 } }
+      {
+        "Name": "File",
+        "Args": { "path": "logs/api-.log", "rollingInterval": "Day", "retainedFileCountLimit": 10 }
+      }
     ],
-    "Enrich": [ "FromLogContext", "WithMachineName", "WithThreadId" ]
+    "Enrich": ["FromLogContext", "WithMachineName", "WithThreadId"]
   }
 }
 ```
 
-Additional sinks (Seq, App Insights, Blob Storage, Cosmos DB, Elasticsearch, Loki, Datadog, SQL Server, MongoDB) are documented as comments in `RegisterLogging()` inside `BuilderConfiguration.cs`.
+Additional sinks (Seq, App Insights, Blob Storage, Cosmos DB, Elasticsearch, Loki, Datadog, SQL
+Server, MongoDB) are documented as comments in `RegisterLogging()` inside `BuilderConfiguration.cs`.
 
 ### Testing
 
 Two test projects:
+
 - **`Api.IntegrationTests`** — `WebApplicationFactory<Program>`, tests HTTP endpoints and middleware
 - **`Api.UnitTests`** — tests service layer directly with Bogus for test data, NSubstitute for mocks
 
-`public partial class Program {}` at the bottom of `Program.cs` is required for `WebApplicationFactory<Program>`.
+`public partial class Program {}` at the bottom of `Program.cs` is required for
+`WebApplicationFactory<Program>`.
 
 ```csharp
 public class ItemEndpointsTests(WebApplicationFactory<Program> factory)
@@ -288,4 +306,3 @@ public class ItemEndpointsTests(WebApplicationFactory<Program> factory)
     }
 }
 ```
-

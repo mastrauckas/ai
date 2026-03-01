@@ -1,6 +1,7 @@
 # .NET Minimal API Template
 
-A production-ready .NET 10 Minimal API template with a clean, consistent structure for building REST APIs.
+A production-ready .NET 10 Minimal API template with a clean, consistent structure for building REST
+APIs.
 
 ## Project Structure
 
@@ -50,14 +51,14 @@ tests/
 
 ## Key Customization Points
 
-| File | What to change |
-|------|---------------|
-| `BuilderConfiguration.cs` → `RegisterDatabase()` | Add EF Core / Dapper / other DB setup |
-| `BuilderConfiguration.cs` → `RegisterServices()` | Register your feature services |
-| `BuilderConfiguration.cs` → `RegisterAuthentication()` | Uncomment and configure JWT Bearer |
-| `BuilderConfiguration.cs` → `RegisterRateLimiting()` | Uncomment and configure rate limits |
-| `Directory.Packages.props` | Update NuGet package versions |
-| `global.json` | Update SDK version pin |
+| File                                                   | What to change                        |
+| ------------------------------------------------------ | ------------------------------------- |
+| `BuilderConfiguration.cs` → `RegisterDatabase()`       | Add EF Core / Dapper / other DB setup |
+| `BuilderConfiguration.cs` → `RegisterServices()`       | Register your feature services        |
+| `BuilderConfiguration.cs` → `RegisterAuthentication()` | Uncomment and configure JWT Bearer    |
+| `BuilderConfiguration.cs` → `RegisterRateLimiting()`   | Uncomment and configure rate limits   |
+| `Directory.Packages.props`                             | Update NuGet package versions         |
+| `global.json`                                          | Update SDK version pin                |
 
 ## Running Tests
 

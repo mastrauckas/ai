@@ -2,12 +2,14 @@
 
 A collection of AI coding agent skills by [Michael Astrauckas](https://github.com/mastrauckas).
 
-A skill is a `SKILL.md` file that tells Copilot how to perform a specialized task — scaffolding a project, debugging a workflow, or following a set of conventions. Copilot loads the skill automatically when your prompt matches, or you can invoke it directly by name.
+A skill is a `SKILL.md` file that tells Copilot how to perform a specialized task — scaffolding a
+project, debugging a workflow, or following a set of conventions. Copilot loads the skill
+automatically when your prompt matches, or you can invoke it directly by name.
 
 ## Available Skills
 
-| Skill | Description |
-|-------|-------------|
+| Skill                                               | Description                                              |
+| --------------------------------------------------- | -------------------------------------------------------- |
 | [dotnet-minimal-api](./dotnet-minimal-api/SKILL.md) | Scaffold a production-ready .NET 10 Minimal API project. |
 
 ## Setup
@@ -30,11 +32,13 @@ Then reload skills in Copilot CLI without restarting:
 /skills reload
 ```
 
-> **Note:** `/skills reload` is a GitHub Copilot CLI command. Claude Code picks up skills automatically on restart.
+> **Note:** `/skills reload` is a GitHub Copilot CLI command. Claude Code picks up skills
+> automatically on restart.
 
 ## Usage
 
-Copilot selects a skill automatically when your prompt matches its description. To invoke one directly, name it in your prompt:
+Copilot selects a skill automatically when your prompt matches its description. To invoke one
+directly, name it in your prompt:
 
 ```
 Use the /dotnet-minimal-api skill to scaffold a new orders API
@@ -47,7 +51,9 @@ Use the /dotnet-minimal-api skill to scaffold a new orders API
 3. Commit and push
 4. Run `/skills reload` in Copilot CLI
 
-See the [GitHub Copilot CLI skills documentation](https://docs.github.com/copilot/how-tos/copilot-cli/customize-copilot/create-skills) for the full `SKILL.md` format reference.
+See the
+[GitHub Copilot CLI skills documentation](https://docs.github.com/copilot/how-tos/copilot-cli/customize-copilot/create-skills)
+for the full `SKILL.md` format reference.
 
 ## License
 
