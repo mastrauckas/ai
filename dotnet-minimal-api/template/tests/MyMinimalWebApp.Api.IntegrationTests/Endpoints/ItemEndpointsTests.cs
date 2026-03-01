@@ -1,7 +1,5 @@
 using System.Net;
 using System.Net.Http.Json;
-using MyMinimalWebApp.Api.Dtos;
-using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace MyMinimalWebApp.Api.IntegrationTests.Endpoints;
 
