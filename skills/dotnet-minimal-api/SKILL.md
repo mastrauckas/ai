@@ -58,7 +58,7 @@ Once you have the answers:
 - Rename `tests/MyMinimalWebApp.Api.UnitTests/` → `tests/<ProjectName>.UnitTests/`
 - Update all namespace references in test projects from `MyMinimalWebApp.Api` → `<ProjectName>`
 - Replace `Item`/`Items` with the appropriate domain entity name if provided
-- Replace the HTTP port `5262` with `<HttpPort>` in:
+- Replace the HTTP port `5262` with `<HttpPort>` and the HTTPS port `7105` with `<HttpPort + 1>` in:
   - `src/<ProjectName>/Properties/launchSettings.json` (both `http` and `https` profiles)
   - `http-files/items.http`
   - `http-files/health.http`
