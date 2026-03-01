@@ -8,7 +8,7 @@
     <!-- API -->
     <!-- NOTE: Microsoft.AspNetCore.OpenApi 10.0.3+ changes the compiled API DLL hash, which triggers a Windows
          Application Control (WDAC) policy block on some machines. Keep at 10.0.0 until the policy is updated. -->
-    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.3" />
     <PackageVersion Include="Serilog.AspNetCore" Version="10.0.0" />
     <PackageVersion Include="Serilog.Sinks.Console" Version="6.1.1" />
     <PackageVersion Include="Serilog.Sinks.File" Version="7.0.0" />
