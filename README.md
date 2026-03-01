@@ -1,6 +1,6 @@
 # skills
 
-Personal [GitHub Copilot CLI](https://docs.github.com/copilot/concepts/agents/about-copilot-cli) skills by [Michael Astrauckas](https://github.com/mastrauckas).
+A collection of AI coding agent skills by [Michael Astrauckas](https://github.com/mastrauckas).
 
 A skill is a `SKILL.md` file that tells Copilot how to perform a specialized task — scaffolding a project, debugging a workflow, or following a set of conventions. Copilot loads the skill automatically when your prompt matches, or you can invoke it directly by name.
 
