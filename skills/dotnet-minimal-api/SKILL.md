@@ -6,7 +6,7 @@ description:
 user-invocable: true
 argument-hint: "create a new .NET Minimal API project"
 metadata:
-  version: 1.0.6
+  version: 1.0.7
   author: Michael Astrauckas
   tags: dotnet, minimal-api, csharp
   created: "2026-02-28"
@@ -30,6 +30,9 @@ When asked to create a new project, **ask the user the following questions befor
    `<SolutionName>.Api`)
 3. **Output directory** — where should the project be created? (defaults to the current working
    directory)
+4. **HTTP port** — generate a random port in the range 5000–5999 and offer it as the suggestion.
+   Present it as a choice alongside a freeform option so the user can accept or enter their own.
+   Example prompt: *"Suggested HTTP port: 5743. Use this or enter your own."*
 
 Once you have the answers:
 
@@ -48,6 +51,10 @@ Once you have the answers:
 - Rename `tests/MyMinimalWebApp.Api.UnitTests/` → `tests/<ProjectName>.UnitTests/`
 - Update all namespace references in test projects from `MyMinimalWebApp.Api` → `<ProjectName>`
 - Replace `Item`/`Items` with the appropriate domain entity name if provided
+- Replace the HTTP port `5262` with `<HttpPort>` in:
+  - `src/<ProjectName>/Properties/launchSettings.json` (both `http` and `https` profiles)
+  - `http-files/items.http`
+  - `http-files/health.http`
 
 ## Template
 
