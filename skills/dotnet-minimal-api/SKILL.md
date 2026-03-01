@@ -30,10 +30,9 @@ When asked to create a new project, **ask the user the following questions befor
    `<SolutionName>.Api`)
 3. **Output directory** — where should the project be created? (defaults to the current working
    directory)
-4. **HTTP port** — generate a random port in the IANA dynamic/private range 49152–65535 and offer
-   it as the suggestion. Present it as a choice alongside a freeform option so the user can accept
-   or enter their own.
-   Example prompt: *"Suggested HTTP port: 52817. Use this or enter your own."*
+4. **HTTP port** — generate a random port in the range 8000–8999 and offer it as the suggestion.
+   Present it as a choice alongside a freeform option so the user can accept or enter their own.
+   Example prompt: *"Suggested HTTP port: 8432. Use this or enter your own."*
 
 Once you have the answers:
 
