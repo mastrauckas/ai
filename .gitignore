@@ -4,6 +4,7 @@
 *.user
 *.suo
 *.userprefs
+*.lscache
 
 # OS
 .DS_Store
