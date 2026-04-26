@@ -1,6 +1,6 @@
 namespace MyMinimalWebApp.Api.Configuration;
 
-public static class AppConfigurationExtensions
+internal static class AppConfigurationExtensions
 {
     extension(WebApplication app)
     {

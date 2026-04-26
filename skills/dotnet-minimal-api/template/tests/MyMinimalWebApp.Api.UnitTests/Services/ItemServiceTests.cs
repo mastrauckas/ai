@@ -1,6 +1,6 @@
 namespace MyMinimalWebApp.Api.UnitTests.Services;
 
-public class ItemServiceTests
+public sealed class ItemServiceTests
 {
     private readonly ItemService _sut = new();
     private readonly Faker<ItemDto> _faker = new Faker<ItemDto>()

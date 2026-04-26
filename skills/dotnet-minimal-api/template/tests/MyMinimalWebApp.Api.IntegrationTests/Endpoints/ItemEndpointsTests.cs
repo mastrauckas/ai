@@ -1,6 +1,6 @@
 namespace MyMinimalWebApp.Api.IntegrationTests.Endpoints;
 
-public class ItemEndpointsTests(WebApplicationFactory<Program> factory)
+public sealed class ItemEndpointsTests(WebApplicationFactory<Program> factory)
     : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly HttpClient _client = factory.CreateClient();

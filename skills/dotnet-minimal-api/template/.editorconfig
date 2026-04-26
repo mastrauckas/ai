@@ -103,6 +103,17 @@ resharper_missing_article_highlighting = warning
 # CA1708 (identifiers differing only by case) -- C# 14 extension blocks use 'extension(Type)' syntax
 # which triggers false positives when multiple extension blocks exist in the same file
 dotnet_diagnostic.CA1708.severity = none
+# CA1034 (nested types) -- C# 14 extension blocks generate nested types in IL; not a real issue
+dotnet_diagnostic.CA1034.severity = none
+# CA1515 (make types internal) -- all hand-written types are already internal; remaining
+# public types are from source generators which we cannot modify
+dotnet_diagnostic.CA1515.severity = none
+# CA2007 (ConfigureAwait) -- ASP.NET Core has no SynchronizationContext, not applicable
+dotnet_diagnostic.CA2007.severity = none
+# CA1031 (catch specific exception) -- ExceptionMiddleware intentionally catches all exceptions
+dotnet_diagnostic.CA1031.severity = none
+# CA1062 (validate non-null parameter) -- redundant with nullable reference types enabled
+dotnet_diagnostic.CA1062.severity = none
 
 # Meziantou rules -- MA0074 fires on xunit's Assert.Contains(string, string), which has no StringComparison overload
 dotnet_diagnostic.MA0074.severity = none
@@ -136,6 +147,8 @@ dotnet_diagnostic.MA0051.severity = none
 # CA1805 -- readonly fields in builder pattern are explicitly set to null for readability
 # CA1001 -- xUnit manages test class lifecycle; IDisposable pattern is verbose for test fixtures
 # CA1873 -- Arg.Any<>() in NSubstitute assertions triggers false positives for logger arg evaluation
+# CA1812 -- xUnit instantiates internal test classes via reflection; analyzer can't see this
+# CA2234 -- integration tests use relative URL strings with HttpClient; Uri overload not applicable
 [**/*.Tests/**/*.cs]
 dotnet_diagnostic.CA1707.severity = none
 dotnet_diagnostic.CA2201.severity = none
@@ -143,6 +156,8 @@ dotnet_diagnostic.CA1805.severity = none
 dotnet_diagnostic.CA1001.severity = none
 dotnet_diagnostic.CA1873.severity = none
 dotnet_diagnostic.MA0048.severity = none
+dotnet_diagnostic.CA1812.severity = none
+dotnet_diagnostic.CA2234.severity = none
 
 [**/*Tests*.cs]
 dotnet_diagnostic.CA1707.severity = none
@@ -151,3 +166,5 @@ dotnet_diagnostic.CA1805.severity = none
 dotnet_diagnostic.CA1001.severity = none
 dotnet_diagnostic.CA1873.severity = none
 dotnet_diagnostic.MA0048.severity = none
+dotnet_diagnostic.CA1812.severity = none
+dotnet_diagnostic.CA2234.severity = none

@@ -1,6 +1,6 @@
 namespace MyMinimalWebApp.Api.Endpoints;
 
-public static class HttpRoutesExtensions
+internal static class HttpRoutesExtensions
 {
     extension(WebApplication app)
     {

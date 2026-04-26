@@ -1,6 +1,6 @@
 namespace MyMinimalWebApp.Api.IntegrationTests.HealthChecks;
 
-public class HealthCheckTests(WebApplicationFactory<Program> factory)
+public sealed class HealthCheckTests(WebApplicationFactory<Program> factory)
     : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly HttpClient _client = factory.CreateClient();

@@ -1,6 +1,6 @@
 namespace MyMinimalWebApp.Api.Middleware;
 
-public class ExceptionMiddleware(RequestDelegate next,
+internal class ExceptionMiddleware(RequestDelegate next,
     ILogger<ExceptionMiddleware> logger,
     IProblemDetailsService problemDetailsService)
 {

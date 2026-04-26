@@ -1,6 +1,6 @@
 namespace MyMinimalWebApp.Api.IntegrationTests.Middleware;
 
-public class ThrowingAppFactory : WebApplicationFactory<Program>
+public sealed class ThrowingAppFactory : WebApplicationFactory<Program>
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {

@@ -1,6 +1,6 @@
 namespace MyMinimalWebApp.Api.IntegrationTests.OpenApi;
 
-public class ScalarUiTests(WebApplicationFactory<Program> factory)
+public sealed class ScalarUiTests(WebApplicationFactory<Program> factory)
     : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly HttpClient _client = factory.CreateClient();

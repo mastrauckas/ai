@@ -1,6 +1,6 @@
 namespace MyMinimalWebApp.Api.Configuration;
 
-public static class BuilderConfigurationExtensions
+internal static class BuilderConfigurationExtensions
 {
     extension(WebApplicationBuilder builder)
     {
@@ -259,6 +259,7 @@ public static class BuilderConfigurationExtensions
             //       "collectionName": "logs" } }
         }
 
+#pragma warning disable CA1822
         public void RegisterDatabase()
         {
             // Register your database context here. Examples:
@@ -277,6 +278,7 @@ public static class BuilderConfigurationExtensions
             // builder.Services.AddSingleton<
             //     IDbConnectionFactory, SqlConnectionFactory>();
         }
+#pragma warning restore CA1822
 
         // Register feature services and repositories here
 #pragma warning disable IDE0022

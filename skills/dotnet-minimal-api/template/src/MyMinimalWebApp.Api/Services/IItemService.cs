@@ -1,6 +1,6 @@
 namespace MyMinimalWebApp.Api.Services;
 
-public interface IItemService
+internal interface IItemService
 {
     public Task<IEnumerable<ItemDto>> GetAllAsync(
         CancellationToken cancellationToken = default);

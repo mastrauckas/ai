@@ -1,6 +1,6 @@
 namespace MyMinimalWebApp.Api.Services;
 
-public class ItemService : IItemService
+internal class ItemService : IItemService
 {
     private readonly List<ItemDto> _items =
     [

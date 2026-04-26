@@ -1,6 +1,6 @@
 namespace MyMinimalWebApp.Api.IntegrationTests.Middleware;
 
-public class ExceptionMiddlewareTests(ThrowingAppFactory factory)
+public sealed class ExceptionMiddlewareTests(ThrowingAppFactory factory)
     : IClassFixture<ThrowingAppFactory>
 {
     private readonly HttpClient _client = factory.CreateClient();

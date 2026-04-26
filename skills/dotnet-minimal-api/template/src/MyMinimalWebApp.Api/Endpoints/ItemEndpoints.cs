@@ -1,9 +1,10 @@
 namespace MyMinimalWebApp.Api.Endpoints;
 
-public static class ItemEndpointExtensions
+internal static class ItemEndpointExtensions
 {
     extension(WebApplication app)
     {
+#pragma warning disable CA1822
         public void MapItemEndpoints(RouteGroupBuilder root)
         {
             var group = root
@@ -54,6 +55,7 @@ public static class ItemEndpointExtensions
                 .WithDescription(
                     "Deletes an item by ID, or returns 404 if not found.");
         }
+#pragma warning restore CA1822
     }
 
 #pragma warning disable IDE0051
