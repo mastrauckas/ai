@@ -12,7 +12,7 @@ public class ExceptionMiddlewareTests(ThrowingAppFactory factory)
 
         Assert.Equal(HttpStatusCode.InternalServerError,
             response.StatusCode);
-        Assert.Equal("application/json",
+        Assert.Equal("application/problem+json",
             response.Content.Headers.ContentType?.MediaType);
         var body = await response.Content.ReadAsStringAsync();
         Snapshot.Match(body,

@@ -59,9 +59,10 @@ public static class ItemEndpointExtensions
 #pragma warning disable IDE0051
     private static async Task<
         Ok<IEnumerable<ItemDto>>
-        > GetAllItems(IItemService service)
+        > GetAllItems(IItemService service,
+        CancellationToken cancellationToken)
     {
-        var items = await service.GetAllAsync();
+        var items = await service.GetAllAsync(cancellationToken);
         return TypedResults.Ok(items);
     }
 
@@ -70,9 +71,11 @@ public static class ItemEndpointExtensions
             Ok<ItemDto>,
             NotFound>
         > GetItemById(int id,
-        IItemService service)
+        IItemService service,
+        CancellationToken cancellationToken)
     {
-        var item = await service.GetByIdAsync(id);
+        var item = await service.GetByIdAsync(id,
+            cancellationToken);
         return item is null
             ? TypedResults.NotFound()
             : TypedResults.Ok(item);
@@ -81,12 +84,14 @@ public static class ItemEndpointExtensions
     private static async Task<
         Created<ItemDto>
         > CreateItem(CreateItemRequest request,
-        IItemService service)
+        IItemService service,
+        CancellationToken cancellationToken)
     {
         var item = new ItemDto(0,
             request.Name,
             request.Description);
-        var created = await service.CreateAsync(item);
+        var created = await service.CreateAsync(item,
+            cancellationToken);
         return TypedResults.Created($"/api/items/{created.Id}",
             created);
     }
@@ -97,13 +102,15 @@ public static class ItemEndpointExtensions
             NotFound>
         > UpdateItem(int id,
         UpdateItemRequest request,
-        IItemService service)
+        IItemService service,
+        CancellationToken cancellationToken)
     {
         var item = new ItemDto(0,
             request.Name,
             request.Description);
         var updated = await service.UpdateAsync(id,
-            item);
+            item,
+            cancellationToken);
         return updated is null
             ? TypedResults.NotFound()
             : TypedResults.Ok(updated);
@@ -114,9 +121,11 @@ public static class ItemEndpointExtensions
             NoContent,
             NotFound>
         > DeleteItem(int id,
-        IItemService service)
+        IItemService service,
+        CancellationToken cancellationToken)
     {
-        var deleted = await service.DeleteAsync(id);
+        var deleted = await service.DeleteAsync(id,
+            cancellationToken);
         return deleted
             ? TypedResults.NoContent()
             : TypedResults.NotFound();

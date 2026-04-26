@@ -13,7 +13,8 @@ src/
       AppConfiguration.cs       # Middleware pipeline (app.ConfigureApp())
     Dtos/
       ItemDto.cs                 # Data transfer objects
-      ItemRequests.cs            # Request records (CreateItemRequest, UpdateItemRequest)
+      CreateItemRequest.cs       # Create request record
+      UpdateItemRequest.cs       # Update request record
     Endpoints/
       HttpRoutes.cs              # Route root group (api/)
       ItemEndpoints.cs           # Item CRUD endpoints

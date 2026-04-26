@@ -6,7 +6,9 @@ public static class HttpRoutesExtensions
     {
         public void ConfigureHttpRoutes()
         {
-            var root = app.MapGroup("api");
+            var root = app
+                .MapGroup("api")
+                .RequireRateLimiting("fixed");
 
             app.MapItemEndpoints(root);
         }

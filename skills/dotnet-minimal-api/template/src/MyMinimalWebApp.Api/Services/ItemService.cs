@@ -14,16 +14,19 @@ public class ItemService : IItemService
 
     private int _nextId = 3;
 
-    public Task<IEnumerable<ItemDto>> GetAllAsync() =>
+    public Task<IEnumerable<ItemDto>> GetAllAsync(
+        CancellationToken cancellationToken = default) =>
         Task.FromResult(_items.AsEnumerable());
 
-    public Task<ItemDto?> GetByIdAsync(int id)
+    public Task<ItemDto?> GetByIdAsync(int id,
+        CancellationToken cancellationToken = default)
     {
         var item = _items.FirstOrDefault(x => x.Id == id);
         return Task.FromResult(item);
     }
 
-    public Task<ItemDto> CreateAsync(ItemDto item)
+    public Task<ItemDto> CreateAsync(ItemDto item,
+        CancellationToken cancellationToken = default)
     {
         var newItem = new ItemDto(_nextId++,
             item.Name,
@@ -33,7 +36,8 @@ public class ItemService : IItemService
     }
 
     public Task<ItemDto?> UpdateAsync(int id,
-        ItemDto item)
+        ItemDto item,
+        CancellationToken cancellationToken = default)
     {
         var index = _items.FindIndex(x => x.Id == id);
         if (index < 0)
@@ -48,7 +52,8 @@ public class ItemService : IItemService
         return Task.FromResult<ItemDto?>(updatedItem);
     }
 
-    public Task<bool> DeleteAsync(int id)
+    public Task<bool> DeleteAsync(int id,
+        CancellationToken cancellationToken = default)
     {
         var item = _items.FirstOrDefault(x => x.Id == id);
         if (item is null)
