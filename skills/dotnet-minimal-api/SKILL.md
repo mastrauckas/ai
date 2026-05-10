@@ -26,13 +26,15 @@ metadata:
 
 ## Scaffolding a New Project
 
-When asked to create a new project, **ask the user the following questions before doing any work**:
+When asked to create a brand-new project, ask the user for the required inputs before scaffolding.
+If the user has already supplied any of these values, do not ask for them again. Only ask for
+missing values:
 
 1. **Solution name** — what should the solution be called? (required)
 2. **Project name** — what should the API project be called? (required; conventionally
    `<SolutionName>.Api`)
 3. **Output directory** — where should the project be created? (defaults to the current working
-   directory)
+   directory if the user does not specify one)
 4. **HTTP port** — generate a random port in the range 8000–8999 by running the appropriate command
    for the user's platform:
    - **Windows**: `Get-Random -Minimum 8000 -Maximum 8999`
@@ -48,13 +50,14 @@ Once you have the answers:
 
 - Copy the contents of the `template/` directory directly into the output directory (do **not**
   create an extra subdirectory — the output directory itself is the project root)
-- Rename `MyMinimalWebApp.slnx` → `<SolutionName>.slnx`
+- Rename the template solution file (`MyMinimalWebApp.slnx` in the current template) to
+  `<SolutionName>` while preserving its extension.
 - Rename `src/MyMinimalWebApp.Api/` → `src/<ProjectName>/`
 - Rename `src/MyMinimalWebApp.Api/MyMinimalWebApp.Api.csproj` →
   `src/<ProjectName>/<ProjectName>.csproj`
 - Update all namespace references from `MyMinimalWebApp.Api` → `<ProjectName>` throughout all `.cs`
   files
-- Update all project references in the `.slnx` file
+- Update all project references in the solution file
 - Update the `InternalsVisibleTo` in `src/<ProjectName>/<ProjectName>.csproj` from
   `MyMinimalWebApp.Api.IntegrationTests` → `<ProjectName>.IntegrationTests`
 - Rename `tests/MyMinimalWebApp.Api.IntegrationTests/` → `tests/<ProjectName>.IntegrationTests/`
@@ -78,7 +81,7 @@ replacing `Item`/`Items` with the appropriate domain entity name.
 
 ```
 template/
-  MyMinimalWebApp.slnx                        ← solution with src/, tests/, http-files/ folders
+  MyMinimalWebApp.slnx                        ← current template solution; preserve extension if this ever changes
   global.json                               ← pins .NET SDK version
   Directory.Build.props                     ← shared build properties (TreatWarningsAsErrors, EnforceCodeStyleInBuild)
   Directory.Packages.props                  ← Central Package Management (all NuGet versions here)
@@ -129,14 +132,14 @@ template/
 
 ## Coding Conventions
 
-- All `using` statements → `GlobalUsings.cs` only
+- Never add `using` directives to individual C# files. Always add them to `GlobalUsings.cs`.
 - Use `var` for all local variables — enforced by `csharp_style_var_elsewhere = true:warning`;
   explicit types for locals are a build error
 - For method declarations and calls with 2+ parameters: first parameter stays on the same line as
   the method name, each additional parameter on its own line
 - Method chains with 2+ dots → each `.` on its own line
-- `TreatWarningsAsErrors = true` + `EnforceCodeStyleInBuild = true` — all style rules enforced at
-  build time
+- `TreatWarningsAsErrors = true` + `EnforceCodeStyleInBuild = true` — many style rules are enforced
+  at build time, but not every convention in this skill is machine-enforced
 - ILogger aliases in GlobalUsings: `ILogger` = `Microsoft.Extensions.Logging.ILogger`,
   `SerilogLogger` = `Serilog.ILogger`
 
@@ -160,94 +163,91 @@ to `Program.cs`.
 
 ### BuilderConfiguration.cs
 
-Extension block on `WebApplicationBuilder` — one `RegisterX()` method per concern:
+Extension methods on `WebApplicationBuilder` — one `RegisterX()` method per concern:
 
 ```csharp
 public static class BuilderConfigurationExtensions
 {
-    extension(WebApplicationBuilder builder)
+    public static void ConfigureBuilder(this WebApplicationBuilder builder)
     {
-        public void ConfigureBuilder()
-        {
-            builder.RegisterOpenApi();
-            builder.RegisterAuthentication();
-            builder.RegisterCors();
-            builder.RegisterRateLimiting();
-            builder.RegisterHealthChecks();
-            builder.RegisterProblemDetails();
-            builder.RegisterLogging();
-            builder.RegisterDatabase();
-            builder.RegisterValidation();
-            builder.RegisterServices();
-        }
+        builder.RegisterOpenApi();
+        builder.RegisterAuthentication();
+        builder.RegisterCors();
+        builder.RegisterRateLimiting();
+        builder.RegisterHealthChecks();
+        builder.RegisterProblemDetails();
+        builder.RegisterLogging();
+        builder.RegisterDatabase();
+        builder.RegisterValidation();
+        builder.RegisterServices();
+    }
 
-        public void RegisterCors()
-        {
-            string[] allowedOrigins = builder
-                .Configuration
-                .GetSection("Cors:AllowedOrigins")
-                .Get<string[]>() ?? [];
+    public static void RegisterCors(this WebApplicationBuilder builder)
+    {
+        string[] allowedOrigins = builder
+            .Configuration
+            .GetSection("Cors:AllowedOrigins")
+            .Get<string[]>() ?? [];
 
-            builder.Services.AddCors(options => { ... });
-        }
+        builder.Services.AddCors(options => { ... });
+    }
 
-        public void RegisterHealthChecks()
-        {
-            builder.Services
-                .AddHealthChecks()
-                .AddCheck("live", () => HealthCheckResult.Healthy(), tags: ["live"]);
-                // Add dependency checks tagged "ready" for readiness probe
-        }
+    public static void RegisterHealthChecks(this WebApplicationBuilder builder)
+    {
+        builder.Services
+            .AddHealthChecks()
+            .AddCheck("live", () => HealthCheckResult.Healthy(), tags: ["live"]);
+            // Add dependency checks tagged "ready" for readiness probe
+    }
 
-        public void RegisterProblemDetails() => builder.Services.AddProblemDetails();
-        public void RegisterValidation() => builder.Services.AddValidation();
+    public static void RegisterProblemDetails(this WebApplicationBuilder builder) =>
+        builder.Services.AddProblemDetails();
+
+    public static void RegisterValidation(this WebApplicationBuilder builder) =>
+        builder.Services.AddValidation();
 
 #pragma warning disable IDE0022
-        public void RegisterServices()
-        {
-            builder.Services.AddSingleton<IItemService, ItemService>();
-        }
-#pragma warning restore IDE0022
+    public static void RegisterServices(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddSingleton<IItemService, ItemService>();
     }
+#pragma warning restore IDE0022
 }
 ```
 
 ### AppConfiguration.cs
 
-Extension block on `WebApplication` — middleware pipeline and endpoint mapping:
+Extension methods on `WebApplication` — middleware pipeline and endpoint mapping:
 
 ```csharp
 public static class AppConfigurationExtensions
 {
-    extension(WebApplication app)
+    public static void ConfigureApp(this WebApplication app)
     {
-        public void ConfigureApp()
+        // Must be first — processes X-Forwarded-For / X-Forwarded-Proto
+        app.UseForwardedHeaders();
+        app.UseMiddleware<ExceptionMiddleware>();
+        app.UseSerilogRequestLogging();
+
+        if (app.Environment.IsDevelopment())
+            app.UseCors("AllowLocalAngularDevelopment");
+
+        app.UseAuthentication();
+        app.UseAuthorization();
+        app.UseRateLimiter();
+        app.MapOpenApi();
+
+        app.MapHealthChecks("/health");
+        app.MapHealthChecks("/health/live", new HealthCheckOptions
         {
-            // Must be first — processes X-Forwarded-For / X-Forwarded-Proto
-            app.UseForwardedHeaders();
-            app.UseMiddleware<ExceptionMiddleware>();
-            app.UseSerilogRequestLogging();
+            Predicate = check => check.Tags.Contains("live")
+        });
+        app.MapHealthChecks("/health/ready", new HealthCheckOptions
+        {
+            Predicate = check => check.Tags.Contains("ready")
+        });
 
-            if (app.Environment.IsDevelopment())
-                app.UseCors("AllowLocalAngularDevelopment");
-
-            app.UseAuthentication();
-            app.UseAuthorization();
-            app.UseRateLimiter();
-            app.MapOpenApi();
-
-            app.MapHealthChecks("/health");
-            app.MapHealthChecks("/health/live", new HealthCheckOptions
-            {
-                Predicate = check => check.Tags.Contains("live")
-            });
-            app.MapHealthChecks("/health/ready", new HealthCheckOptions
-            {
-                Predicate = check => check.Tags.Contains("ready")
-            });
-
-            app.ConfigureHttpRoutes();
-        }
+        app.ConfigureHttpRoutes();
     }
 }
 ```
@@ -257,9 +257,9 @@ public static class AppConfigurationExtensions
 `HttpRoutes.cs` creates the `api` root group and delegates to feature endpoint mappers:
 
 ```csharp
-extension(WebApplication app)
+public static class HttpRoutesExtensions
 {
-    public void ConfigureHttpRoutes()
+    public static void ConfigureHttpRoutes(this WebApplication app)
     {
         RouteGroupBuilder root = app.MapGroup("api");
         app.MapItemEndpoints(root);
@@ -270,9 +270,11 @@ extension(WebApplication app)
 `ItemEndpoints.cs` extends `WebApplication`, receives the root group:
 
 ```csharp
-extension(WebApplication app)
+public static class ItemEndpointsExtensions
 {
-    public void MapItemEndpoints(RouteGroupBuilder root)
+    public static void MapItemEndpoints(
+        this WebApplication app,
+        RouteGroupBuilder root)
     {
         RouteGroupBuilder group = root
             .MapGroup("/items")
