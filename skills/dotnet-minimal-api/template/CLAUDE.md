@@ -8,9 +8,9 @@ alternatives.
 ## Code Style
 
 Always use extension blocks over extension methods. Lines must never exceed 80 characters. Each
-class must be in its own file. Prefer primary constructors over traditional constructors. Always use
-`init` over `set` for properties. Always use `is null` and `is not null` instead of `== null` and
-`!= null`.
+class must be in its own file. Prefer primary constructors over traditional constructors. Prefer
+`init` over `set` for properties unless there is a good reason not to. Always use `is null` and
+`is not null` instead of `== null` and `!= null`.
 
 For **record declarations**, each parameter must be on its own line with the opening parenthesis
 alone on the first line:
