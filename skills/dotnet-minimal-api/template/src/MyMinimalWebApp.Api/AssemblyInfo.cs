@@ -1,4 +1,4 @@
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo(
-    "MyMinimalWebApp.Api.UnitTests")]
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo(
-    "MyMinimalWebApp.Api.IntegrationTests")]
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("MyMinimalWebApp.Api.UnitTests")]
+[assembly: InternalsVisibleTo("MyMinimalWebApp.Api.IntegrationTests")]
