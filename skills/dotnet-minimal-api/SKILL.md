@@ -163,91 +163,94 @@ to `Program.cs`.
 
 ### BuilderConfiguration.cs
 
-Extension methods on `WebApplicationBuilder` — one `RegisterX()` method per concern:
+Extension block on `WebApplicationBuilder` — one `RegisterX()` method per concern:
 
 ```csharp
 public static class BuilderConfigurationExtensions
 {
-    public static void ConfigureBuilder(this WebApplicationBuilder builder)
+    extension(WebApplicationBuilder builder)
     {
-        builder.RegisterOpenApi();
-        builder.RegisterAuthentication();
-        builder.RegisterCors();
-        builder.RegisterRateLimiting();
-        builder.RegisterHealthChecks();
-        builder.RegisterProblemDetails();
-        builder.RegisterLogging();
-        builder.RegisterDatabase();
-        builder.RegisterValidation();
-        builder.RegisterServices();
-    }
+        public void ConfigureBuilder()
+        {
+            builder.RegisterOpenApi();
+            builder.RegisterAuthentication();
+            builder.RegisterCors();
+            builder.RegisterRateLimiting();
+            builder.RegisterHealthChecks();
+            builder.RegisterProblemDetails();
+            builder.RegisterLogging();
+            builder.RegisterDatabase();
+            builder.RegisterValidation();
+            builder.RegisterServices();
+        }
 
-    public static void RegisterCors(this WebApplicationBuilder builder)
-    {
-        string[] allowedOrigins = builder
-            .Configuration
-            .GetSection("Cors:AllowedOrigins")
-            .Get<string[]>() ?? [];
+        public void RegisterCors()
+        {
+            string[] allowedOrigins = builder
+                .Configuration
+                .GetSection("Cors:AllowedOrigins")
+                .Get<string[]>() ?? [];
 
-        builder.Services.AddCors(options => { ... });
-    }
+            builder.Services.AddCors(options => { ... });
+        }
 
-    public static void RegisterHealthChecks(this WebApplicationBuilder builder)
-    {
-        builder.Services
-            .AddHealthChecks()
-            .AddCheck("live", () => HealthCheckResult.Healthy(), tags: ["live"]);
-            // Add dependency checks tagged "ready" for readiness probe
-    }
+        public void RegisterHealthChecks()
+        {
+            builder.Services
+                .AddHealthChecks()
+                .AddCheck("live", () => HealthCheckResult.Healthy(), tags: ["live"]);
+                // Add dependency checks tagged "ready" for readiness probe
+        }
 
-    public static void RegisterProblemDetails(this WebApplicationBuilder builder) =>
-        builder.Services.AddProblemDetails();
-
-    public static void RegisterValidation(this WebApplicationBuilder builder) =>
-        builder.Services.AddValidation();
+        public void RegisterProblemDetails() => builder.Services.AddProblemDetails();
+        public void RegisterValidation() => builder.Services.AddValidation();
 
 #pragma warning disable IDE0022
-    public static void RegisterServices(this WebApplicationBuilder builder)
-    {
-        builder.Services.AddSingleton<IItemService, ItemService>();
-    }
+        public void RegisterServices()
+        {
+            builder.Services.AddSingleton<IItemService, ItemService>();
+        }
 #pragma warning restore IDE0022
+    }
 }
 ```
 
 ### AppConfiguration.cs
 
-Extension methods on `WebApplication` — middleware pipeline and endpoint mapping:
+Extension block on `WebApplication` — middleware pipeline and endpoint mapping:
 
 ```csharp
 public static class AppConfigurationExtensions
 {
-    public static void ConfigureApp(this WebApplication app)
+    extension(WebApplication app)
     {
-        // Must be first — processes X-Forwarded-For / X-Forwarded-Proto
-        app.UseForwardedHeaders();
-        app.UseMiddleware<ExceptionMiddleware>();
-        app.UseSerilogRequestLogging();
-
-        if (app.Environment.IsDevelopment())
-            app.UseCors("AllowLocalAngularDevelopment");
-
-        app.UseAuthentication();
-        app.UseAuthorization();
-        app.UseRateLimiter();
-        app.MapOpenApi();
-
-        app.MapHealthChecks("/health");
-        app.MapHealthChecks("/health/live", new HealthCheckOptions
+        public void ConfigureApp()
         {
-            Predicate = check => check.Tags.Contains("live")
-        });
-        app.MapHealthChecks("/health/ready", new HealthCheckOptions
-        {
-            Predicate = check => check.Tags.Contains("ready")
-        });
+            // Must be first — processes X-Forwarded-For / X-Forwarded-Proto
+            app.UseForwardedHeaders();
+            app.UseMiddleware<ExceptionMiddleware>();
+            app.UseSerilogRequestLogging();
 
-        app.ConfigureHttpRoutes();
+            if (app.Environment.IsDevelopment())
+                app.UseCors("AllowLocalAngularDevelopment");
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseRateLimiter();
+            app.MapOpenApi();
+
+            app.MapHealthChecks("/health");
+            app.MapHealthChecks("/health/live", new HealthCheckOptions
+            {
+                Predicate = check => check.Tags.Contains("live")
+            });
+            app.MapHealthChecks("/health/ready", new HealthCheckOptions
+            {
+                Predicate = check => check.Tags.Contains("ready")
+            });
+
+            app.ConfigureHttpRoutes();
+        }
     }
 }
 ```
@@ -257,9 +260,9 @@ public static class AppConfigurationExtensions
 `HttpRoutes.cs` creates the `api` root group and delegates to feature endpoint mappers:
 
 ```csharp
-public static class HttpRoutesExtensions
+extension(WebApplication app)
 {
-    public static void ConfigureHttpRoutes(this WebApplication app)
+    public void ConfigureHttpRoutes()
     {
         RouteGroupBuilder root = app.MapGroup("api");
         app.MapItemEndpoints(root);
@@ -270,11 +273,9 @@ public static class HttpRoutesExtensions
 `ItemEndpoints.cs` extends `WebApplication`, receives the root group:
 
 ```csharp
-public static class ItemEndpointsExtensions
+extension(WebApplication app)
 {
-    public static void MapItemEndpoints(
-        this WebApplication app,
-        RouteGroupBuilder root)
+    public void MapItemEndpoints(RouteGroupBuilder root)
     {
         RouteGroupBuilder group = root
             .MapGroup("/items")
