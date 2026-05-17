@@ -1,6 +1,6 @@
 namespace MyMinimalWebApp.Api.IntegrationTests.Middleware;
 
-public class ExceptionMiddlewareTests(ThrowingAppFactory factory)
+public sealed class ExceptionMiddlewareTests(ThrowingAppFactory factory)
     : IClassFixture<ThrowingAppFactory>
 {
     private readonly HttpClient _client = factory.CreateClient();
@@ -12,7 +12,7 @@ public class ExceptionMiddlewareTests(ThrowingAppFactory factory)
 
         Assert.Equal(HttpStatusCode.InternalServerError,
             response.StatusCode);
-        Assert.Equal("application/json",
+        Assert.Equal("application/problem+json",
             response.Content.Headers.ContentType?.MediaType);
         var body = await response.Content.ReadAsStringAsync();
         Snapshot.Match(body,

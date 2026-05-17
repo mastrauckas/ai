@@ -1,7 +1,8 @@
 namespace MyMinimalWebApp.Api.Middleware;
 
-public class ExceptionMiddleware(RequestDelegate next,
-    ILogger<ExceptionMiddleware> logger)
+internal class ExceptionMiddleware(RequestDelegate next,
+    ILogger<ExceptionMiddleware> logger,
+    IProblemDetailsService problemDetailsService)
 {
     public async Task InvokeAsync(HttpContext context)
     {
@@ -13,21 +14,29 @@ public class ExceptionMiddleware(RequestDelegate next,
         {
             logger.LogExceptionInMiddleware(ex.Message,
                 ex);
-            await HandleExceptionAsync(context);
+            await HandleExceptionAsync(context,
+                ex);
         }
     }
 
-    private static async Task HandleExceptionAsync(HttpContext context)
+    private async Task HandleExceptionAsync(HttpContext context,
+        Exception ex)
     {
-        context.Response.ContentType = "application/json";
-        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        context.Response.StatusCode =
+            StatusCodes.Status500InternalServerError;
 
-        await context.Response.WriteAsJsonAsync(new
+        await problemDetailsService.WriteAsync(new ProblemDetailsContext
         {
-            type = "https://tools.ietf.org/html/rfc7231#section-6.6.1",
-            title = "An error occurred while processing your request.",
-            status = StatusCodes.Status500InternalServerError,
-            traceId = context.TraceIdentifier
+            HttpContext = context,
+            Exception = ex,
+            ProblemDetails =
+            {
+                Type =
+                    "https://tools.ietf.org/html/rfc7231#section-6.6.1",
+                Title =
+                    "An error occurred while processing your request.",
+                Status = StatusCodes.Status500InternalServerError
+            }
         });
     }
 }

@@ -1,5 +1,8 @@
 # Agent Instructions
 
+This is the canonical project instruction file. If another instruction file in this template
+disagrees, follow this one.
+
 ## Language and Framework
 
 This project uses C# 14 and .NET 10. Always prefer features from these versions over older
@@ -8,9 +11,9 @@ alternatives.
 ## Code Style
 
 Always use extension blocks over extension methods. Lines must never exceed 80 characters. Each
-class must be in its own file. Prefer primary constructors over traditional constructors. Always use
-`init` over `set` for properties. Always use `is null` and `is not null` instead of `== null` and
-`!= null`.
+class must be in its own file. Prefer primary constructors over traditional constructors. Prefer
+`init` over `set` for properties unless there is a good reason not to. Always use `is null` and
+`is not null` instead of `== null` and `!= null`.
 
 For **record declarations**, each parameter must be on its own line with the opening parenthesis
 alone on the first line:
@@ -57,14 +60,13 @@ var result = items
 
 ## Locals
 
-Always use `var` for local variables. The editorconfig enforces
+Always use `var` for local variables. The `.editorconfig` enforces
 `csharp_style_var_elsewhere = true:warning`, which combined with `TreatWarningsAsErrors` makes
 explicit types a build error for locals.
 
 ## Usings
 
-Never add `using` directives at the top of individual C# files. Always add them to `GlobalUsings.cs`
-instead.
+Never add `using` directives to individual C# files. Always add them to `GlobalUsings.cs`.
 
 ## DTOs
 

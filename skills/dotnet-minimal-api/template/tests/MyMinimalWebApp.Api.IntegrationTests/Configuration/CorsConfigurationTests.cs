@@ -1,6 +1,6 @@
 namespace MyMinimalWebApp.Api.IntegrationTests.Configuration;
 
-public class CorsConfigurationTests(NoCorsFactory factory)
+public sealed class CorsConfigurationTests(NoCorsFactory factory)
     : IClassFixture<NoCorsFactory>
 {
     private readonly HttpClient _client = factory.CreateClient();

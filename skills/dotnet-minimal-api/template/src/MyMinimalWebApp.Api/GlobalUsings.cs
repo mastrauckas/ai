@@ -1,9 +1,11 @@
 global using System.ComponentModel.DataAnnotations;
+global using System.Runtime.CompilerServices;
 global using System.Threading.RateLimiting;
 
 global using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 global using Microsoft.AspNetCore.Http.HttpResults;
 global using Microsoft.AspNetCore.HttpOverrides;
+global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.AspNetCore.RateLimiting;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -14,6 +16,8 @@ global using MyMinimalWebApp.Api.Endpoints;
 global using MyMinimalWebApp.Api.Logging;
 global using MyMinimalWebApp.Api.Middleware;
 global using MyMinimalWebApp.Api.Services;
+
+global using Scalar.AspNetCore;
 
 global using Serilog;
 

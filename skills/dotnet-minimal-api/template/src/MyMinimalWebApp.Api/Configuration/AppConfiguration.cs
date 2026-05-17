@@ -1,6 +1,6 @@
 namespace MyMinimalWebApp.Api.Configuration;
 
-public static class AppConfigurationExtensions
+internal static class AppConfigurationExtensions
 {
     extension(WebApplication app)
     {
@@ -35,7 +35,11 @@ public static class AppConfigurationExtensions
             // enable in RegisterRateLimiting):
             app.UseRateLimiter();
 
-            app.MapOpenApi();
+            if (!app.Environment.IsProduction())
+            {
+                app.MapOpenApi();
+                app.MapScalarApiReference();
+            }
 
             // Health checks — map combined, liveness, and readiness probes
             app.MapHealthChecks("/health");

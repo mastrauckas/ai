@@ -1,6 +1,6 @@
 namespace MyMinimalWebApp.Api.IntegrationTests.Configuration;
 
-public class SerilogEnrichmentTests
+public sealed class SerilogEnrichmentTests
 {
     [Fact]
     public void EnrichWithClientIp_SetsClientIpOnDiagnosticContext()
