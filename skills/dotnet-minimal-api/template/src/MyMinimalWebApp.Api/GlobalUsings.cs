@@ -1,4 +1,5 @@
 global using System.ComponentModel.DataAnnotations;
+global using System.Runtime.CompilerServices;
 global using System.Threading.RateLimiting;
 
 global using Microsoft.AspNetCore.Diagnostics.HealthChecks;
